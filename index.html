@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Голосовой Тренажёр</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #121212;
+      color: #ffffff;
+    }
+    .splash {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background: linear-gradient(to bottom, #1f1f1f, #000000);
+      font-size: 2rem;
+      animation: fadeOut 2s 2s forwards;
+    }
+    @keyframes fadeOut {
+      to { opacity: 0; visibility: hidden; }
+    }
+    .main {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem;
+      animation: fadeIn 1s forwards;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    button {
+      background-color: #333;
+      color: #fff;
+      border: none;
+      padding: 1rem 2rem;
+      margin: 1rem;
+      font-size: 1.2rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background-color: #555;
+    }
+    .output {
+      margin-top: 2rem;
+      font-size: 1.2rem;
+      max-width: 600px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="splash" id="splash">Голосовой тренажёр загружается...</div>
+  <div class="main" id="main">
+    <h1>Генератор голосовых заданий</h1>
+    <button onclick="generateTask('solo')">Одиночное задание</button>
+    <button onclick="generateTask('company')">Задание для компании</button>
+    <div class="output" id="taskOutput">Нажми кнопку для получения задания.</div>
+  </div>
+
+  <audio id="clickSound" src="click.mp3"></audio>
+
+  <script>
+    const soloTasks = [
+      "Прочитай скороговорку: 'От топота копыт пыль по полю летит'. Сделай это с разной интонацией.",
+      "Говори как радио-диктор: зачитай прогноз погоды, выдумывая его.",
+      "Изобрази, будто ты суперзлодей. Зачитай клятву от имени злодея.",
+      "Расскажи о своём дне голосом мультяшного персонажа.",
+      "Проговори алфавит, начиная каждый звук с эмоционального оттенка (гнев, радость, грусть, волнение)."
+    ];
+
+    const companyGames = [
+      "Игра 'Ораторская дуэль': каждый выбирает тему и 30 секунд спорит, кто убедительнее — выигрывает.",
+      "'Голос угадай кто': один изображает голосом известного персонажа, остальные угадывают.",
+      "'Речевые шляпы': вытягиваются роли (диктор, радио, старик и т.д.) — нужно за 30 секунд рассказать анекдот в роли.",
+      "'Передай эмоцию': первый говорит фразу без эмоций, следующий с заданной эмоцией. По кругу." 
+    ];
+
+    function playClick() {
+      document.getElementById('clickSound').play();
+    }
+
+    function generateTask(type) {
+      playClick();
+      const output = document.getElementById("taskOutput");
+      if (type === 'solo') {
+        output.textContent = soloTasks[Math.floor(Math.random() * soloTasks.length)];
+      } else {
+        output.textContent = companyGames[Math.floor(Math.random() * companyGames.length)];
+      }
+    }
+
+    // Показ основного интерфейса после заставки
+    setTimeout(() => {
+      document.getElementById('splash').style.display = 'none';
+      document.getElementById('main').style.display = 'flex';
+    }, 3000);
+  </script>
+</body>
+</html>
